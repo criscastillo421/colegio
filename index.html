@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+Mi primer proyecto en PHP con NetBeans luego de muchos años de abandonar el desarrollo
+con muchas ganas de que éste desarrollo sea útil y libre
+becherel
+
+I'm from Colombia, hope this be usefull
+-->
+ <?php
+        // Formulario de login por Sandra Cristina Muñoz Castillo
+if(isset($_REQUEST['attempt']))
+{
+//el password tendré la encriptación sha1('');
+//echo sha1('jesse');
+/* ESTO VA A SER CAMBIADO, ATENCIÓN $user = $_POST['usuario'];
+$password = $_POST['password'];
+ */
+ 
+ //consulta SQL
+ $link = mysql_connect('localhost','root','') or die ('Cant connect to databaseeee');
+ mysql_select_db('colegio');
+$user = mysql_real_escape_string($_POST['usuario']);
+$password = sha1(mysql_real_escape_string($_POST['password']));
+ $query = mysql_query("
+         SELECT nom_usu 
+         FROM usuarios
+         WHERE nom_usu = '$user'
+         AND password = '$password'
+         ") or die (mysql_error());
+ //echo mysql_fetch_array($query);
+ echo mysql_num_rows($query);
+}
+ ?>
+
+<html>
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Sistema de Información para Colegios</title>
+    </head>
+    <body bgcolor="#f0ddfb">
+        <form method="post" action="index.php?attempt">
+            <br><center><table border="2" align="center" >
+                    <tr><td colspan="2" style="text-align:center;"><h1>SISTEMA DE INFORMACION ACADEMICA<br> C&nbsp;O&nbsp;L&nbsp;O&nbsp;M&nbsp;B&nbsp;I&nbsp;A</h1><br></td></tr>
+                    <tr><td colspan="2" style="text-align:center;"><h2>INGRESO AL SISTEMA<br><br></h2></td></tr>
+                    <tr><td style="font-size:20px">USUARIO:</td>
+                        <td> <input type="Text" name="usuario"style="width:200px;height:50px;color:blue;font-size:14pt;font-family: Comic Sans MS;text-align:right;padding-right:10px;"></td>
+                    <tr><td style="font-size:20px">CONTRASEÑA:</td> 
+                        <td><input type="Text" name="password" style="width:200px;height:50px;color:blue;font-size:14pt;font-family: Comic Sans MS;text-align:right;padding-right:10px;"><br></td>
+                    <tr><td colspan="2" style="text-align:center;"><input type="submit" value="Enviar" name="bnt_enviar"style="width:100px; height:50px;font-weight: bold "></td>
+            <br>
+            </center>
+        </form>
+    </body>
+</html>
